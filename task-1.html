@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <title>Task 1</title>
+</head>
+
+<script>
+    //Function to display random quote
+    function responseRequest() {
+        var myRequest = new XMLHttpRequest();
+        var url = 'https://programming-quotes-api.herokuapp.com/Quotes';
+
+        myRequest.open('GET', url, true);
+        myRequest.responseText = 'json';
+        myRequest.send();
+        myRequest.onload = function () {
+            const quote = myRequest.response;
+            var randomNum = Math.floor(Math.random() * 200);
+            const obj = JSON.parse(quote);
+            document.getElementById("message").innerHTML = obj[randomNum]["en"];
+            document.getElementById("author").innerHTML = obj[randomNum]["author"];
+        }
+    }
+</script>
+
+<body>
+    <div class="container-fluid" id="box">
+        <div id="con">
+            Quote: <h2>
+                <blockquote id="message"></blockquote>
+            </h2> <br>
+            Author: <h4>
+                <div id="author"></div>
+            </h4>
+        </div>
+
+        <button class="btn btn-primary" type="button" onclick="responseRequest()">
+            Generate
+        </button>
+    </div>
+</body>
+
+</html>

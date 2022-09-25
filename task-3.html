@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CDN link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Task 3</title>
+</head>
+
+<script>
+    //Function for downloading the page
+    window.onload = function () {
+        document.getElementById("download")
+            .addEventListener("click", () => {
+                const img = this.document.getElementById("con");
+                console.log(img);
+                console.log(window);
+                var opt = {
+                    margin: 1,
+                    filename: 'myfile.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().from(img).set(opt).save();
+            })
+    }
+    //Function for displaying random quote
+    function responseRequest() {
+        var myRequest = new XMLHttpRequest();
+        var url = 'https://programming-quotes-api.herokuapp.com/Quotes';
+
+        myRequest.open('GET', url, true);
+        myRequest.responseText = 'json';
+        myRequest.send();
+        myRequest.onload = function () {
+            const quote = myRequest.response;
+            var randomNum = Math.floor(Math.random() * 200);
+            const obj = JSON.parse(quote);
+            document.getElementById("message").innerHTML = obj[randomNum]["en"];
+            document.getElementById("author").innerHTML = obj[randomNum]["author"];
+        }
+    }
+
+</script>
+
+<body>
+    <!-- Basic code for displaying the quote -->
+    <div class="container-fluid" id="box">
+        <div id="con">
+            Quote: <h2> <blockquote id="message"></blockquote></h2> <br>
+            Author: <h4> <div id="author"></div> </h4>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="responseRequest()">
+            Generate
+        </button>
+        <button class="btn btn-primary" type="button" id="download">
+            Download
+        </button>
+    </div>
+</body>
+
+</html>
